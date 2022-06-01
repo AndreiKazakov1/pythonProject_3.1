@@ -42,19 +42,29 @@ def Insertsort(A):
     for i in range(1, len(A)):
         t = A[i]
         j = i-1
-        while j >= 0 and A[j-1] > t:
-            A[j] = A[j-1]
+        while j >= 0 and t < A[j]:
+            A[j+1] = A[j]
             j -= 1
-        A[j] = t
+        A[j+1] = t
 
 
 
+def SelectSort(A):
+    for i in range(len(A)-1):
+        m = i
+        j = i + 1
+        while j < len(A):
+            if A[j] < A[m]:
+                m = j
+            j += 1
+        A[i], A[m] = A[m], A[i]
 
-table = prettytable.PrettyTable(["Размер списка", "Время пузырька", "Время быстрой", "Время вставкой" ])
+table = prettytable.PrettyTable(["Размер списка", "Время пузырька", "Время быстрой", "Время вставкой", "Время выбором"])
 x = []
 y1 = []
 y2 = []
 y3 = []
+y4 = []
 
 for N in range(1000, 5001, 1000):
     x.append(N)
@@ -68,20 +78,25 @@ for N in range(1000, 5001, 1000):
 
     B = A.copy()
     C = A.copy()
+    D = A.copy()
+
+    """BubbleSort(A)
+    print("---")
+    print(A)
+
+    QuickSort(B, 0, len(B)-1)
+    print("---")
     print(B)
+
+    Insertsort(C)
+    print("---")
     print(C)
 
-    #BubbleSort(A)
+    SelectSort(D)
     print("---")
-    #print(A)
+    print(D)"""
 
-    #QuickSort(B, 0, len(B)-1)
-    print("---")
-    #print(B)
 
-    #Insertsort(C)
-    print("---")
-    #print(C)
 
     t1 = datetime.datetime.now()
     BubbleSort(A)
@@ -101,12 +116,21 @@ for N in range(1000, 5001, 1000):
     y3.append((t6 - t5).total_seconds())
     print("Cортировка вставкой   " + str(N) + "   заняла   " + str((t6 - t5).total_seconds()) + "c")
 
+    t7 = datetime.datetime.now()
+    Insertsort(C)
+    t8 = datetime.datetime.now()
+    y4.append((t8 - t7).total_seconds())
+    print("Cортировка выбором   " + str(N) + "   заняла   " + str((t8 - t7).total_seconds()) + "c")
+
+
     table.add_row(
-        [str(N), str((t2 - t1).total_seconds()), str((t4 - t3).total_seconds()), str((t6 - t5).total_seconds())])
+        [str(N), str((t2 - t1).total_seconds()), str((t4 - t3).total_seconds()), str((t6 - t5).total_seconds()),
+         str((t8 - t7).total_seconds())])
 print(table)
 
 plt.plot(x, y1, "C0")
 plt.plot(x, y2, "C1")
 plt.plot(x, y3, "C7")
+plt.plot(x, y4, "C5")
 plt.show()
 
