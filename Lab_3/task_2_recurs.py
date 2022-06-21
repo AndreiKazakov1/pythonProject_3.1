@@ -12,6 +12,7 @@ print("*****************")
 
 count = 1
 x, y = 0, 0
+e, w = a, b
 
 while a != b:
     if a > b:
@@ -26,6 +27,17 @@ print( f'сторона квадрата на первом этапе {x}')
 print( f'сторона квадрата на втором этапе {y}')
 print(f'кол-во полученных квадратов {count} ')
 
-
-
-
+count1=1
+def recur(e, w, count1):
+    if e == w:
+        return count1
+    else:
+        if e > w:
+            e -= w
+            count1 += 1
+            return recur(e, w, count1)
+        else:
+            w -= e
+            count1 += 1
+            return recur(e, w, count1)
+print(f'кол-во полученных квадратов с рекурсией  {recur(e, w, count1 )} ')
